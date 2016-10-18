@@ -1,6 +1,6 @@
 // Autor: Sansil
 // Fecha: 16/10/16
-// Usage: Desde la linea de comandos se ejecuta: run show_v <Valor_a_buscar> 
+#usage "Desde la linea de comandos se ejecuta: run show_v <Valor_a_buscar> "
 
 int i = 0;
 string c="0";
@@ -8,6 +8,7 @@ string s = "";
 string valor ="";
 string input_text="";
 string info="";
+string commandstring = ";window fit;SHOW ";
 
 valor = argv[1];
 if( argc <=1){		
@@ -41,10 +42,10 @@ if (sheet ) {
 		dlgPushButton("+OK") dlgAccept();
 		
 	};
-	string commandstring = "SHOW " + s;
+	commandstring = commandstring + s;
 	exit(commandstring);
 	}
-}else if (board ){
+}else if (board){
 	if (input_text!="")
 		valor = input_text;
 	board(B) {
@@ -59,18 +60,18 @@ if (sheet ) {
 				}
 		  }
 		}
-	dlgDialog("Info sansil") {
-		sprintf(c, "%d", i);
-		string info = "Numero de componenteseessees encontrados: " + c;
-		dlgLabel(info);
-		dlgPushButton("+OK") dlgAccept();
-	};
-	string commandstring = "SHOW " + s;
-	exit(commandstring);
-		}
+		dlgDialog("Info sansil") {
+			sprintf(c, "%d", i);
+			string info = "Numero de componentes encontrados: " + c;
+			dlgLabel(info);
+			dlgPushButton("+OK") dlgAccept();
+		};
+		commandstring = commandstring + s;
+		exit(commandstring);
+	}
 }else{
 	int Result = dlgDialog("Info sansil") {
-			info = "Debe especificar el valor del componte a buscar\nUsage: run show_v <valor_a_buscar>" ;
+			info = "Debe ejecutar el ULP dentro de un .SCH o .BRD" ;
 		dlgLabel(info);
 		dlgPushButton("+OK") dlgAccept();
 	};
