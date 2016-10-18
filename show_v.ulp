@@ -1,14 +1,14 @@
-// Autor: Sansil
+// Autor: sansil, sansil32@gmail.com
 // Fecha: 16/10/16
 #usage "Desde la linea de comandos se ejecuta: run show_v <Valor_a_buscar> "
 
-int i = 0;
-string c="0";
+int count = 0;
+string c = "0";
 string s = "";
 string valor ="";
 string input_text="";
 string info="";
-string commandstring = ";window fit;SHOW ";
+string commandstring = ";WINDOW FIT;SHOW @ ";
 
 valor = argv[1];
 if( argc <=1){		
@@ -23,20 +23,20 @@ if( argc <=1){
 }
 if (sheet ) {
 	sheet(S){
-	output("C:log.txt","wt") {	
+	//output("C:log.txt","wt") {	
 
 		if (input_text!="")
 				valor = input_text;
 		S.parts(P) 
 		if (P.value == valor){
-			printf("%s ", P.name);
+			//printf("%s ", P.name);
 			s = s + P.name + " ";
-			i++;
-			printf(input_text);
+			count++;
+			//printf(input_text);
 		}
-	}
+	//}
 	dlgDialog("Info sansil") {
-		sprintf(c, "%d", i);
+		sprintf(c, "%d", count);
 		string info = "Numero de componentes encontrados: " + c;
 		dlgLabel(info);
 		dlgPushButton("+OK") dlgAccept();
@@ -49,19 +49,19 @@ if (sheet ) {
 	if (input_text!="")
 		valor = input_text;
 	board(B) {
-		output("C:log.txt","wt") {
+		//output("C:log.txt","wt") {
 			B.elements(E) {
-				printf("%s ", E.value);
+				//printf("%s ", E.value);
 				if (E.value == valor){
-					printf("%s ", E.name);
+					//printf("%s ", E.name);
 					s = s + E.name + " ";
-					i++;
-					printf(input_text);
+					count++;
+					//printf(input_text);
 				}
 		  }
-		}
+		//}
 		dlgDialog("Info sansil") {
-			sprintf(c, "%d", i);
+			sprintf(c, "%d", count);
 			string info = "Numero de componentes encontrados: " + c;
 			dlgLabel(info);
 			dlgPushButton("+OK") dlgAccept();
