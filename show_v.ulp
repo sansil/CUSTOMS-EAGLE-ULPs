@@ -1,0 +1,91 @@
+// Autor: Sansil
+// Fecha: 16/10/16
+// Usage: Desde la linea de comandos se ejecuta: run show_v <Valor_a_buscar> 
+
+int i = 0;
+string c="0";
+string s = "";
+string valor ="";
+string input_text="";
+string info="";
+
+valor = argv[1];
+if (sheet ) {
+	sheet(S){
+	output("C:log.txt","wt") {
+		
+		if( argc <=1){		
+					dlgDialog("Info sansil") {
+					dlgVBoxLayout {
+					dlgLabel("&Ingrese el valor de los commponentes a buscar");
+					dlgStringEdit(input_text);
+					dlgPushButton("+OK") dlgAccept();
+					//dlgPushButton("Cancel") dlgReject();
+				
+				}
+			};
+		}
+		if (input_text!="")
+				valor = input_text;
+		S.parts(P) 
+		if (P.value == valor){
+			printf("%s ", P.name);
+			s = s + P.name + " ";
+			i++;
+			printf(input_text);
+		}
+	}
+	dlgDialog("Info sansil") {
+		sprintf(c, "%d", i);
+		string info = "Numero de componentes encontrados: " + c;
+		dlgLabel(info);
+		dlgPushButton("+OK") dlgAccept();
+		
+	};
+	string commandstring = "SHOW " + s;
+	exit(commandstring);
+	}
+}else if (board ){
+	if( argc <=1){		
+					dlgDialog("Info sansil") {
+					dlgVBoxLayout {
+					dlgLabel("&Ingrese el valor de los commponentes a buscar");
+					dlgStringEdit(input_text);
+					dlgPushButton("+OK") dlgAccept();
+					//dlgPushButton("Cancel") dlgReject();
+				
+				}
+			};
+		}
+		if (input_text!="")
+				valor = input_text;
+		board(B) {
+			output("C:log.txt","wt") {
+				B.elements(E) {
+					printf("%s ", E.value);
+					if (E.value == valor){
+						printf("%s ", E.name);
+						s = s + E.name + " ";
+						i++;
+						printf(input_text);
+					}
+			  }
+			}
+				dlgDialog("Info sansil") {
+				sprintf(c, "%d", i);
+				string info = "Numero de componenteseessees encontrados: " + c;
+				dlgLabel(info);
+				dlgPushButton("+OK") dlgAccept();
+			};
+	string commandstring = "SHOW " + s;
+	exit(commandstring);
+		}
+}else{
+	int Result = dlgDialog("Info sansil") {
+			info = "Debe especificar el valor del componte a buscar\nUsage: run show_v <valor_a_buscar>" ;
+		dlgLabel(info);
+		dlgPushButton("+OK") dlgAccept();
+	};
+}
+
+
