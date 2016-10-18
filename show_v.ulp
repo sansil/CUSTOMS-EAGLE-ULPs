@@ -10,21 +10,20 @@ string input_text="";
 string info="";
 
 valor = argv[1];
+if( argc <=1){		
+	dlgDialog("Info sansil") {
+		dlgVBoxLayout {
+		dlgLabel("&Ingrese el valor de los commponentes a buscar");
+		dlgStringEdit(input_text);
+		dlgPushButton("+OK") dlgAccept();
+		//dlgPushButton("Cancel") dlgReject();
+		}
+	};
+}
 if (sheet ) {
 	sheet(S){
-	output("C:log.txt","wt") {
-		
-		if( argc <=1){		
-					dlgDialog("Info sansil") {
-					dlgVBoxLayout {
-					dlgLabel("&Ingrese el valor de los commponentes a buscar");
-					dlgStringEdit(input_text);
-					dlgPushButton("+OK") dlgAccept();
-					//dlgPushButton("Cancel") dlgReject();
-				
-				}
-			};
-		}
+	output("C:log.txt","wt") {	
+
 		if (input_text!="")
 				valor = input_text;
 		S.parts(P) 
@@ -46,37 +45,26 @@ if (sheet ) {
 	exit(commandstring);
 	}
 }else if (board ){
-	if( argc <=1){		
-					dlgDialog("Info sansil") {
-					dlgVBoxLayout {
-					dlgLabel("&Ingrese el valor de los commponentes a buscar");
-					dlgStringEdit(input_text);
-					dlgPushButton("+OK") dlgAccept();
-					//dlgPushButton("Cancel") dlgReject();
-				
+	if (input_text!="")
+		valor = input_text;
+	board(B) {
+		output("C:log.txt","wt") {
+			B.elements(E) {
+				printf("%s ", E.value);
+				if (E.value == valor){
+					printf("%s ", E.name);
+					s = s + E.name + " ";
+					i++;
+					printf(input_text);
 				}
-			};
+		  }
 		}
-		if (input_text!="")
-				valor = input_text;
-		board(B) {
-			output("C:log.txt","wt") {
-				B.elements(E) {
-					printf("%s ", E.value);
-					if (E.value == valor){
-						printf("%s ", E.name);
-						s = s + E.name + " ";
-						i++;
-						printf(input_text);
-					}
-			  }
-			}
-				dlgDialog("Info sansil") {
-				sprintf(c, "%d", i);
-				string info = "Numero de componenteseessees encontrados: " + c;
-				dlgLabel(info);
-				dlgPushButton("+OK") dlgAccept();
-			};
+	dlgDialog("Info sansil") {
+		sprintf(c, "%d", i);
+		string info = "Numero de componenteseessees encontrados: " + c;
+		dlgLabel(info);
+		dlgPushButton("+OK") dlgAccept();
+	};
 	string commandstring = "SHOW " + s;
 	exit(commandstring);
 		}
