@@ -10,8 +10,38 @@ string input_text="";
 string info="";
 string commandstring = ";WINDOW FIT;SHOW @ ";
 
-valor = argv[1];
-if( argc <=1){		
+
+
+
+//Control de entrada. se pasa el valor ingresado a lowercase. y se quitan los espacios. A los espacios los toma como un argc
+string valorlow = "";
+string inputString = "";
+int j=0;
+char ch;
+//output("C:log.txt","wt") {
+for(int i =1 ;i<=argc;i++){	
+	inputString = argv[i];
+	j=0;
+	valorlow = "";
+	while (inputString[j]){
+
+		if(isalpha(inputString[j])){
+			ch=inputString[j];
+			valorlow[j] = tolower(ch);
+		}else{
+			valorlow[j] = inputString[j];
+		}
+		j++;
+	}
+	//printf("%s ",valorlow);
+	valor= valor + valorlow;
+}
+//printf("%s ",valor);
+//}
+//valor = valorlow;
+
+
+if( argc <=1){	// no ingreso el valor a buscar	
 	dlgDialog("Info sansil") {
 		dlgVBoxLayout {
 		dlgLabel("&Ingrese el valor de los commponentes a buscar");
@@ -76,5 +106,6 @@ if (sheet ) {
 		dlgPushButton("+OK") dlgAccept();
 	};
 }
+
 
 
