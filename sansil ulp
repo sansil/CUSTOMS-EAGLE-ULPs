@@ -1,0 +1,128 @@
+// Autor: sansil, sansil32@gmail.com
+// Fecha: 16/10/16
+#usage "Desde la linea de comandos se ejecuta: run show_v <Valor_a_buscar> "
+
+int count = 0;
+int count_cambios = 0;
+string c = "0";
+string s = "";
+string att="";
+string valor ="";
+string input_text="";
+string input_MPN_aremplazar="";
+string info="";
+string commandstring = ";WINDOW FIT;SHOW @ ";
+
+
+
+
+//Control de entrada. se pasa el valor ingresado a lowercase. y se quitan los espacios. A los espacios los toma como un argc
+string valorlow = "";
+string inputString = "";
+int j=0;
+char ch;
+//output("C:log.txt","wt") {
+for(int i =1 ;i<=argc;i++){	
+	inputString = argv[i];
+	j=0;
+	valorlow = "";
+	while (inputString[j]){
+
+		if(isalpha(inputString[j])){
+			ch=inputString[j];
+			valorlow[j] = tolower(ch);
+		}else{
+			valorlow[j] = inputString[j];
+		}
+		j++;
+	}
+	//printf("%s ",valorlow);
+	valor= valor + valorlow;
+}
+//printf("%s ",valor);
+//}
+//valor = valorlow;
+
+
+if( argc <=1){	// no ingreso el valor a buscar	
+	dlgDialog("Info sansil") {
+		dlgVBoxLayout {
+		dlgLabel("&Ingrese el valor del MPN a remplazar");
+		dlgStringEdit(input_text);
+		dlgLabel("&Ingrese el valor del nuevo MPN ");
+		dlgStringEdit(input_MPN_aremplazar);
+		dlgPushButton("+OK") dlgAccept();
+		//dlgPushButton("Cancel") dlgReject();
+		}
+	};
+}
+if (sheet ) {
+	sheet(S){
+	output("C:\Users\Gonzalo\Documents\MARKRobots\PCB\Shield\log.txt","wt") {	
+
+		if (input_text!="")
+				valor = input_text;
+S.parts(P) {
+
+	P.attributes(A) {
+		if( A.name == "MPN" ){
+			if( A.value == input_text){
+				att=att + "ATTRIBUTE " + P.name  + " MPN " + "'" + input_MPN_aremplazar  + "'"+";" ;
+				count_cambios=count_cambios+1;
+				printf("%s ", P.name);
+				s = s + P.name + " ";
+			   count++;
+				}
+		}
+	}
+	//	if (P.value == valor){
+	//		printf("%s ", P.name);
+	//		s = s + P.name + " ";
+	//		count++;
+	//		//printf(input_text);
+	//	}
+}
+	
+	
+	dlgDialog("Info sansil") {
+		sprintf(c, "%d", count_cambios);
+		string info = "Numero de componentes actualizados: " + c ;
+		dlgLabel(info);
+		dlgPushButton("+OK") dlgAccept();
+		
+	};
+	commandstring = att + commandstring + s  ;
+	exit(commandstring);
+	}
+	}
+}else if (board){
+	if (input_text!="")
+		valor = input_text;
+	board(B) {
+		//output("C:log.txt","wt") {
+			B.elements(E) {
+				//printf("%s ", E.value);
+				if (E.value == valor){
+					//printf("%s ", E.name);
+					s = s + E.name + " ";
+					count++;
+					//printf(input_text);
+				}
+		  }
+		//}
+		dlgDialog("Info sansil") {
+			sprintf(c, "%d", count_cambios);
+			string info = "Numero de componentes actualizados: " + c  ;
+			dlgLabel(info);
+			dlgPushButton("+OK") dlgAccept();
+		};
+		commandstring = commandstring + s + att ;
+		exit(commandstring);
+	}
+}else{
+	int Result = dlgDialog("Info sansil") {
+			info = "Debe ejecutar el ULP dentro de un .SCH o .BRD" ;
+		dlgLabel(info);
+		dlgPushButton("+OK") dlgAccept();
+	};
+}
